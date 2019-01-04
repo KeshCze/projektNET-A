@@ -13,21 +13,30 @@ namespace projektNETA
 {
     public partial class Form1 : Form
     {
-        Currencies currencies;          
+        Currencies currencies;
+        private delegate void Delegate(); 
+
         public Form1()
         {
             InitializeComponent();
             currencies = new Currencies();
             currencies.PluginAdded += Currencies_PluginAdded;
+            
         }
-
         private void Currencies_PluginAdded()
+        {
+            Delegate d = new Delegate(SetText);
+            this.Invoke(d);
+        }
+        
+        private void SetText()
         {
             textBox1.Text = string.Empty;
             foreach (var item in currencies.CurrenciesList)
             {
                 textBox1.Text += item.Name + "---" + item.value + "\n";
-            }
+            }        
+
         }
     }
 }

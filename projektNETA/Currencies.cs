@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace projektNETA
@@ -22,7 +24,8 @@ namespace projektNETA
         public Currencies()
         {
             setWatcher();
-            
+            CurrenciesList = new List<Currency>();
+
         }
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         private void setWatcher()
@@ -45,19 +48,27 @@ namespace projektNETA
             List<string> pluginNames = getPluginNames();
             foreach (var item in pluginNames)
             {
-                Tuple<string, int> tmpCurrency = getCurrencyFromPlugin(item);
-
+                Tuple<string, decimal> tmpCurrency = getCurrencyFromPlugin(item);
+                CurrenciesList.Add(new Currency() { Name = tmpCurrency.Item1, value = tmpCurrency.Item2 });
             }
-
 
             PluginAdded?.Invoke();
         }
 
-        private Tuple<string, int> getCurrencyFromPlugin(string item)
+        private Tuple<string, decimal> getCurrencyFromPlugin(string item)
         {
             // načti assembly s jménem, zavolej metodu, vrať Tuple
-            throw new NotImplementedException();
-            
+            string tmp = filePath + @"\plugins\" + item + ".dll";
+            Assembly testAssembly = Assembly.LoadFile(filePath + @"\" + item + ".dll");
+            Type objectType = testAssembly.GetType(item+ "." +item);
+            if (!typeof(PluginsNS.Plugins).IsAssignableFrom(objectType))
+            {
+                throw new OutOfMemoryException();
+            }
+            MethodInfo methodInfo = objectType.GetMethod("GetCurr");
+            object objectInstance = Activator.CreateInstance(objectType);
+            var result = (Tuple<string,decimal>)methodInfo.Invoke(objectInstance, new object[0]);
+            return result;           
         }
 
         private List<string> getPluginNames()

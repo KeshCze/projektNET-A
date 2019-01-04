@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projektNETA", "projektNETA\projektNETA.csproj", "{1625DF41-7C40-44CD-997F-D78CDCE36B61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Czech", "Czech\Czech.csproj", "{2C1DEC71-7868-4838-90DD-4EBDB535B036}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins", "Plugins\Plugins.csproj", "{2C81FA5E-084B-4009-8E71-6A9F09E9A13F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{1625DF41-7C40-44CD-997F-D78CDCE36B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1625DF41-7C40-44CD-997F-D78CDCE36B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1625DF41-7C40-44CD-997F-D78CDCE36B61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C1DEC71-7868-4838-90DD-4EBDB535B036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C1DEC71-7868-4838-90DD-4EBDB535B036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C1DEC71-7868-4838-90DD-4EBDB535B036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C1DEC71-7868-4838-90DD-4EBDB535B036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C81FA5E-084B-4009-8E71-6A9F09E9A13F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C81FA5E-084B-4009-8E71-6A9F09E9A13F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C81FA5E-084B-4009-8E71-6A9F09E9A13F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C81FA5E-084B-4009-8E71-6A9F09E9A13F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
