@@ -34,7 +34,7 @@ namespace projektNETA
             textBox1.Text = string.Empty;
             foreach (var item in currencies.CurrenciesList)
             {
-                textBox1.Text += item.Name + "---" + item.value + "\n";
+                textBox1.Text += item.Name + "---" + item.value.ToString("C") + "\n";
             }        
 
         }

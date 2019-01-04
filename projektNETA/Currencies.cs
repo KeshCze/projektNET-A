@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace projektNETA
 {
@@ -45,17 +46,28 @@ namespace projektNETA
 
         private void update()
         {
-            List<string> pluginNames = getPluginNames();
+            List<string> pluginNames = getPluginNames(); // get names from config.xml of plugin names
             foreach (var item in pluginNames)
             {
-                Tuple<string, decimal> tmpCurrency = getCurrencyFromPlugin(item);
+                Tuple<string, decimal,string> tmpCurrency = getCurrencyFromPlugin(item); // get currency from *.dll plugins
                 CurrenciesList.Add(new Currency() { Name = tmpCurrency.Item1, value = tmpCurrency.Item2 });
             }
 
-            PluginAdded?.Invoke();
+            saveCurrencies(); // saves the list of currencies to the XML
+
+            PluginAdded?.Invoke(); // invoke publisher for the event of PluginAdded
         }
 
-        private Tuple<string, decimal> getCurrencyFromPlugin(string item)
+        private void saveCurrencies()
+        {
+            using (Stream stream = File.OpenWrite(filePath + @"\log.xml"))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Currency>));
+                serializer.Serialize(stream, this.CurrenciesList);
+            }                     
+        }
+
+        private Tuple<string, decimal,string> getCurrencyFromPlugin(string item)
         {
             // načti assembly s jménem, zavolej metodu, vrať Tuple
             string tmp = filePath + @"\plugins\" + item + ".dll";
@@ -67,7 +79,7 @@ namespace projektNETA
             }
             MethodInfo methodInfo = objectType.GetMethod("GetCurr");
             object objectInstance = Activator.CreateInstance(objectType);
-            var result = (Tuple<string,decimal>)methodInfo.Invoke(objectInstance, new object[0]);
+            var result = (Tuple<string,decimal,string>)methodInfo.Invoke(objectInstance, new object[0]);
             return result;           
         }
 

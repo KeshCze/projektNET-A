@@ -12,7 +12,7 @@ namespace Czech
     public class Czech : Plugins
     {
         string url = "http://data.fixer.io/api/latest?access_key=0f007733ee0a34353fa71745e4bc68a6&symbols=CZK&format=1";
-        public Tuple<string, decimal> GetCurr()
+        public Tuple<string, decimal,string> GetCurr()
         {
             WebClient wc = new WebClient();
             RootObject obj = null;
@@ -24,7 +24,7 @@ namespace Czech
             {
 
             }           
-            return new Tuple<string, decimal>("Czech",obj.rates.CZK);           
+            return new Tuple<string, decimal,string>("Czech",obj.rates.CZK,"cs-CZ");           
         }
     }
 }

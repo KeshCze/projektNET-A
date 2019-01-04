@@ -8,7 +8,7 @@ namespace PluginsNS
 {
     public interface Plugins
     {
-        Tuple<string, decimal> GetCurr();
+        Tuple<string, decimal,string> GetCurr();
 
     }
 }
