@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -44,13 +45,26 @@ namespace projektNETA
             update();
         }
 
-        private void update()
+        public void update()
         {
             List<string> pluginNames = getPluginNames(); // get names from config.xml of plugin names
             foreach (var item in pluginNames)
             {
-                Tuple<string, decimal,string> tmpCurrency = getCurrencyFromPlugin(item); // get currency from *.dll plugins
-                CurrenciesList.Add(new Currency() { Name = tmpCurrency.Item1, value = tmpCurrency.Item2 });
+                try
+                {
+                    Tuple<string, decimal,string> tmpCurrency = getCurrencyFromPlugin(item); // get currency from *.dll plugins
+                    CurrenciesList.Add(new Currency() { Name = tmpCurrency.Item1, value = tmpCurrency.Item2 });
+
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                    Trace.WriteLine(e.ToString());
+                    foreach (var item_ in Trace.Listeners)
+                    {
+                        Debug.WriteLine(item_.ToString());
+                    }
+                }
             }
 
             saveCurrencies(); // saves the list of currencies to the XML
@@ -75,7 +89,7 @@ namespace projektNETA
             Type objectType = testAssembly.GetType(item+ "." +item);
             if (!typeof(PluginsNS.Plugins).IsAssignableFrom(objectType))
             {
-                throw new OutOfMemoryException();
+                throw new InterfaceNotImplementedExeption("Iterface was not implemented in the desired class");
             }
             MethodInfo methodInfo = objectType.GetMethod("GetCurr");
             object objectInstance = Activator.CreateInstance(objectType);
@@ -95,6 +109,18 @@ namespace projektNETA
                 list.Add(item.InnerText.ToString());
             }
             return list;
+
+        }
+    }
+
+    public class InterfaceNotImplementedExeption : Exception
+    {
+        /// <summary>
+        /// Create the exception with description
+        /// </summary>
+        /// <param name="message"></param>
+        public InterfaceNotImplementedExeption(String message) : base(message)
+        {
 
         }
     }
